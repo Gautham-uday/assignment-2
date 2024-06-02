@@ -31,11 +31,13 @@ public class ExportOrdersController {
 
     private User currentUser;
 
+    // Sets the current user and loads their orders into the ListView
     public void setUser(User user) {
         this.currentUser = user;
         loadOrders(user);
     }
 
+    // Loads all orders for the given user and adds them to the ListView as CheckBoxes
     private void loadOrders(User user) {
         List<Order> allOrders = UserData.getAllOrders(user.getUsername());
         for (Order order : allOrders) {
@@ -45,6 +47,7 @@ public class ExportOrdersController {
         }
     }
 
+    // Handles exporting the selected orders to a CSV file
     @FXML
     private void handleExport() {
         FileChooser fileChooser = new FileChooser();
@@ -66,6 +69,7 @@ public class ExportOrdersController {
         }
     }
 
+    // Formats the order details into a CSV format string
     private String exportOrder(Order order) {
         StringBuilder sb = new StringBuilder();
         sb.append("Order Number: ").append(order.getOrderNumber()).append(",");
@@ -80,6 +84,7 @@ public class ExportOrdersController {
         return sb.toString();
     }
 
+    // Handles the action to go back to the dashboard
     @FXML
     private void handleBackToDashboard(ActionEvent event) {
         try {

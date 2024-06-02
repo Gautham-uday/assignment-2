@@ -21,43 +21,46 @@ import java.util.List;
 public class MainController {
 
     @FXML
-    private Label firstNameLabel;
+    private Label firstNameLabel; // Label to display the user's first name
 
     @FXML
-    private Label lastNameLabel;
+    private Label lastNameLabel; // Label to display the user's last name
 
     @FXML
-    private VBox ordersBox;
+    private VBox ordersBox; // VBox to hold the list of active orders
 
-    private User currentUser;
+    private User currentUser; // Variable to store the current user
 
+    // Method to set the current user and update the UI with user information
     public void setUser(User user) {
         this.currentUser = user;
         firstNameLabel.setText(user.getFirstName());
         lastNameLabel.setText(user.getLastName());
-        loadActiveOrders(user);
+        loadActiveOrders(user); // Load active orders for the user
     }
 
+    // Method to load active orders for the user and display them in the UI
     private void loadActiveOrders(User user) {
-        ordersBox.getChildren().clear();
+        ordersBox.getChildren().clear(); // Clear the existing orders
         List<Order> activeOrders = UserData.getActiveOrders(user.getUsername());
         for (Order order : activeOrders) {
             HBox orderBox = new HBox(10);
             Label orderLabel = new Label(order.toString());
             Button cancelButton = new Button("Cancel");
 
-            cancelButton.setDisable(!order.isCancellable());
-            cancelButton.setOnAction(e -> handleCancelOrder(order));
+            cancelButton.setDisable(!order.isCancellable()); // Disable cancel button if the order cannot be cancelled
+            cancelButton.setOnAction(e -> handleCancelOrder(order)); // Set action for cancel button
 
-            orderBox.getChildren().addAll(orderLabel, cancelButton);
-            ordersBox.getChildren().add(orderBox);
+            orderBox.getChildren().addAll(orderLabel, cancelButton); // Add order details and cancel button to HBox
+            ordersBox.getChildren().add(orderBox); // Add HBox to VBox
         }
     }
 
+    // Method to handle the cancellation of an order
     private void handleCancelOrder(Order order) {
         if (order.isCancellable()) {
             order.cancel();
-            UserData.updateOrder(currentUser.getUsername(), order);
+            UserData.updateOrder(currentUser.getUsername(), order); // Update the order status in the data
             showAlert("Order Cancelled", "Your order has been cancelled successfully.");
             loadActiveOrders(currentUser); // Refresh the order list
         } else {
@@ -65,6 +68,7 @@ public class MainController {
         }
     }
 
+    // Method to handle user logout
     @FXML
     private void handleLogout(ActionEvent event) {
         try {
@@ -78,6 +82,7 @@ public class MainController {
         }
     }
 
+    // Method to handle placing a new order
     @FXML
     private void handlePlaceOrder(ActionEvent event) {
         try {
@@ -93,6 +98,24 @@ public class MainController {
         }
     }
 
+    // Method to handle ordering a meal for VIP users
+    @FXML
+    private void handleOrderMeal(ActionEvent event) {
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/assignment2/placeOrder.fxml"));
+            Parent root = fxmlLoader.load();
+            PlaceOrderController placeOrderController = fxmlLoader.getController();
+            placeOrderController.setUser(currentUser);
+            placeOrderController.setMealOrder(true); // Assume this method sets the order type to meal
+            Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+        }
+    }
+
+    // Method to handle showing the sales report
     @FXML
     private void handleShowSalesReport(ActionEvent event) {
         try {
@@ -108,6 +131,7 @@ public class MainController {
         }
     }
 
+    // Method to handle updating the prices
     @FXML
     private void handleUpdatePrices(ActionEvent event) {
         try {
@@ -124,6 +148,7 @@ public class MainController {
         }
     }
 
+    // Method to handle editing the user profile
     @FXML
     private void handleEditProfile(ActionEvent event) {
         try {
@@ -141,6 +166,7 @@ public class MainController {
         }
     }
 
+    // Method to handle viewing all orders
     @FXML
     private void handleViewOrders(ActionEvent event) {
         try {
@@ -157,6 +183,7 @@ public class MainController {
         }
     }
 
+    // Method to handle collecting an order
     @FXML
     private void handleCollectOrder(ActionEvent event) {
         try {
@@ -186,13 +213,15 @@ public class MainController {
             showAlert("Error", "Failed to load the Collect Order view.");
         }
     }
+
+    // Method to handle exporting orders
     @FXML
     private void handleExportOrders(ActionEvent event) {
         try {
             FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/assignment2/exportOrders.fxml"));
             Parent root = fxmlLoader.load();
             ExportOrdersController exportOrdersController = fxmlLoader.getController();
-            exportOrdersController.setUser(currentUser);  // Ensure this method is correctly invoked
+            exportOrdersController.setUser(currentUser); // Ensure this method is correctly invoked
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -202,7 +231,30 @@ public class MainController {
         }
     }
 
+    // Method to handle upgrading to VIP
+    @FXML
+    private void handleUpgradeToVIP(ActionEvent event) {
+        if (currentUser.isVIP()) {
+            showAlert("Already a VIP", "You are already a VIP user.");
+            return;
+        }
 
+        try {
+            FXMLLoader fxmlLoader = new FXMLLoader(getClass().getResource("/com/example/assignment2/vipUpgrade.fxml"));
+            Parent root = fxmlLoader.load();
+            VipUpgradeController vipUpgradeController = fxmlLoader.getController();
+            vipUpgradeController.setUser(currentUser);
+            Stage stage = new Stage();
+            stage.setTitle("Upgrade to VIP");
+            stage.setScene(new Scene(root));
+            stage.show();
+        } catch (Exception e) {
+            e.printStackTrace();
+            showAlert("Error", "Failed to load the VIP Upgrade view.");
+        }
+    }
+
+    // Method to display alerts
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

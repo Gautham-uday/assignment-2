@@ -5,6 +5,7 @@ import com.example.assignment2.model.User;
 import com.example.assignment2.util.UserData;
 import javafx.fxml.FXML;
 import javafx.scene.control.Alert;
+import javafx.scene.control.Label;
 import javafx.scene.control.TextField;
 import javafx.fxml.FXMLLoader;
 import javafx.scene.Parent;
@@ -19,45 +20,64 @@ import java.time.format.DateTimeParseException;
 public class PaymentController {
 
     @FXML
-    private TextField cardNumberField;
+    private TextField cardNumberField;  // TextField for card number input
 
     @FXML
-    private TextField expiryDateField;
+    private TextField expiryDateField;  // TextField for card expiry date input
 
     @FXML
-    private TextField cvvField;
+    private TextField cvvField;  // TextField for CVV input
 
-    private Order order;
-    private User currentUser;
+    @FXML
+    private Label totalPriceLabel;  // Label to display total price
 
+    private Order order;  // Order object for the current order
+    private User currentUser;  // User object for the current user
+    private double totalPrice;  // Total price of the order
+
+    // Method to set the order object
     public void setOrder(Order order) {
         this.order = order;
     }
 
+    // Method to set the user object
     public void setUser(User user) {
         this.currentUser = user;
     }
 
+    // Method to set and display the total price
+    public void setTotalPrice(double totalPrice) {
+        this.totalPrice = totalPrice;
+        totalPriceLabel.setText("Total Price: $" + totalPrice);
+    }
+
+    // Method to handle the confirmation of payment
     @FXML
     private void handleConfirmPayment(ActionEvent event) {
         String cardNumber = cardNumberField.getText();
         String expiryDate = expiryDateField.getText();
         String cvv = cvvField.getText();
 
+        // Validate card number, expiry date, and CVV
         if (validateCardNumber(cardNumber) && validateExpiryDate(expiryDate) && validateCVV(cvv)) {
             // Process payment (assuming success)
             order.setOrderNumber(Order.generateOrderNumber());
             UserData.addOrder(currentUser.getUsername(), order);
+            // Add credits for the user
+            currentUser.addCredits((int) totalPrice);
+
             showAlert("Payment Successful", "Your order has been placed successfully.");
             handleBackToDashboard(event);
         }
     }
 
+    // Method to handle cancellation of payment
     @FXML
     private void handleCancel(ActionEvent event) {
         handleBackToDashboard(event);
     }
 
+    // Method to validate card number
     private boolean validateCardNumber(String cardNumber) {
         if (cardNumber.length() == 16 && cardNumber.matches("\\d+")) {
             return true;
@@ -67,6 +87,7 @@ public class PaymentController {
         }
     }
 
+    // Method to validate expiry date
     private boolean validateExpiryDate(String expiryDate) {
         DateTimeFormatter formatter = DateTimeFormatter.ofPattern("MM/yy");
         try {
@@ -83,6 +104,7 @@ public class PaymentController {
         }
     }
 
+    // Method to validate CVV
     private boolean validateCVV(String cvv) {
         if (cvv.length() == 3 && cvv.matches("\\d+")) {
             return true;
@@ -92,6 +114,7 @@ public class PaymentController {
         }
     }
 
+    // Method to handle navigation back to the dashboard
     @FXML
     private void handleBackToDashboard(ActionEvent event) {
         try {
@@ -107,6 +130,7 @@ public class PaymentController {
         }
     }
 
+    // Method to display alert messages
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

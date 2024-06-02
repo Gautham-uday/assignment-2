@@ -18,37 +18,55 @@ import javafx.scene.control.Label;
 public class PlaceOrderController {
 
     @FXML
-    private TextField burritoQuantity;
+    private TextField burritoQuantity; // TextField for burrito quantity input
 
     @FXML
-    private TextField friesQuantity;
+    private TextField friesQuantity; // TextField for fries quantity input
 
     @FXML
-    private TextField sodaQuantity;
+    private TextField sodaQuantity; // TextField for soda quantity input
 
     @FXML
-    private ListView<String> basketListView;
+    private ListView<String> basketListView; // ListView to display items in the basket
 
     @FXML
-    private Label totalPriceLabel;
+    private Label totalPriceLabel; // Label to display the total price
 
     @FXML
-    private Label waitingTimeLabel;
+    private Label waitingTimeLabel; // Label to display the waiting time
 
-    private ObservableList<String> basketItems;
-    private Order order;
-    private User currentUser;
+    private ObservableList<String> basketItems; // Observable list for basket items
+    private Order order; // Order object for the current order
+    private User currentUser; // User object for the current user
+    private boolean isMealOrder = false; // Flag to indicate if the order is a meal
 
+    // Initialize the controller
     public void initialize() {
         basketItems = FXCollections.observableArrayList();
         basketListView.setItems(basketItems);
         order = new Order();
     }
 
+    // Set the current user
     public void setUser(User user) {
         this.currentUser = user;
     }
 
+    // Set the order type to meal
+    public void setMealOrder(boolean isMealOrder) {
+        this.isMealOrder = isMealOrder;
+        if (isMealOrder) {
+            if (!currentUser.isVIP()) {
+                showAlert("VIP Only", "Only VIP members can order meals.");
+                return;
+            }
+            order.addFoodItem(new Meal(14.5, 1)); // Assuming Meal price without discount
+            basketItems.add("Meal x 1");
+            updateTotalPriceAndTime();
+        }
+    }
+
+    // Handle adding items to the basket
     @FXML
     private void handleAddToBasket(ActionEvent event) {
         int burritoQty = getQuantity(burritoQuantity);
@@ -72,6 +90,7 @@ public class PlaceOrderController {
         updateTotalPriceAndTime();
     }
 
+    // Handle removing selected items from the basket
     @FXML
     private void handleRemoveSelected(ActionEvent event) {
         String selectedItem = basketListView.getSelectionModel().getSelectedItem();
@@ -85,13 +104,18 @@ public class PlaceOrderController {
         }
     }
 
+    // Update the total price and waiting time
     private void updateTotalPriceAndTime() {
         double totalPrice = order.getTotalPrice();
+        if (currentUser.isVIP() && isMealOrder) {
+            totalPrice -= 3.0; // Apply VIP discount for meal orders
+        }
         totalPriceLabel.setText("Total Price: $" + totalPrice);
         double waitingTime = order.getPrepTime(new Restaurant("Burrito King"));
         waitingTimeLabel.setText("Waiting Time: " + waitingTime + " minutes");
     }
 
+    // Handle proceeding to payment
     @FXML
     private void handleProceedToPayment(ActionEvent event) {
         try {
@@ -100,6 +124,7 @@ public class PlaceOrderController {
             PaymentController paymentController = fxmlLoader.getController();
             paymentController.setOrder(order);
             paymentController.setUser(currentUser);
+            paymentController.setTotalPrice(order.getTotalPrice()); // Set total price in payment controller
             Stage stage = (Stage) ((javafx.scene.Node) event.getSource()).getScene().getWindow();
             stage.setScene(new Scene(root));
             stage.show();
@@ -108,6 +133,7 @@ public class PlaceOrderController {
         }
     }
 
+    // Handle navigating back to the dashboard
     @FXML
     private void handleBack(ActionEvent event) {
         try {
@@ -122,6 +148,7 @@ public class PlaceOrderController {
         }
     }
 
+    // Get the quantity from a TextField
     private int getQuantity(TextField textField) {
         try {
             return Integer.parseInt(textField.getText());
@@ -130,12 +157,14 @@ public class PlaceOrderController {
         }
     }
 
+    // Clear input fields
     private void clearInputFields() {
         burritoQuantity.clear();
         friesQuantity.clear();
         sodaQuantity.clear();
     }
 
+    // Show an alert message
     private void showAlert(String title, String content) {
         Alert alert = new Alert(Alert.AlertType.INFORMATION);
         alert.setTitle(title);

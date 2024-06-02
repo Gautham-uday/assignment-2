@@ -13,13 +13,16 @@ public class Order implements Serializable {
     private LocalDateTime orderTime;
     private LocalDateTime collectionTime;
     private String status;
+    private double finalPrice; // Store the actual price paid
 
     public Order() {
         items = new LinkedList<>();
         this.orderNumber = generateOrderNumber();
         this.orderTime = LocalDateTime.now();
         this.status = "await for collection";
+        this.finalPrice = 0.0;
     }
+
 
     public void addFoodItem(FoodItem newItem) {
         for (FoodItem item : items) {
@@ -100,6 +103,37 @@ public class Order implements Serializable {
             }
         }
         return null;
+    }
+    public void addMeal() {
+        Burrito burrito = new Burrito(Restaurant.getPrice("Burrito"), 1);
+        Fries fries = new Fries(Restaurant.getPrice("Fries"), 1);
+        Soda soda = new Soda(Restaurant.getPrice("Soda"), 1);
+        addFoodItem(burrito);
+        addFoodItem(fries);
+        addFoodItem(soda);
+    }
+    public double applyVIPDiscount() {
+        double totalPrice = getTotalPrice();
+        return Math.max(totalPrice - 3, 0); // Apply a discount of $3
+    }
+
+    public void setFinalPrice(double finalPrice) {
+        this.finalPrice = finalPrice;
+    }
+
+    public double getFinalPrice() {
+        return finalPrice;
+    }
+
+    public double getTotalPrice(boolean isVIP) {
+        double sum = 0.0;
+        for (FoodItem item : items) {
+            sum += item.getTotalPrice();
+        }
+        if (isVIP) {
+            sum -= 3;  // VIP discount
+        }
+        return sum;
     }
 
     public int getOrderNumber() {

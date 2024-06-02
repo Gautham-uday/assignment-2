@@ -30,6 +30,7 @@
       <change afterPath="$PROJECT_DIR$/src/main/java/com/example/assignment2/controller/SalesReportController.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/example/assignment2/controller/UpdatePricesController.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/example/assignment2/controller/ViewOrdersController.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/java/com/example/assignment2/controller/VipUpgradeController.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/example/assignment2/model/Burrito.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/example/assignment2/model/Cookable.java" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/java/com/example/assignment2/model/FoodItem.java" afterDir="false" />
@@ -54,6 +55,7 @@
       <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/assignment2/salesReport.fxml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/assignment2/updatePrices.fxml" afterDir="false" />
       <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/assignment2/viewOrders.fxml" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/src/main/resources/com/example/assignment2/vipUpgrade.fxml" afterDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -81,27 +83,27 @@
     <option name="hideEmptyMiddlePackages" value="true" />
     <option name="showLibraryContents" value="true" />
   </component>
-  <component name="PropertiesComponent"><![CDATA[{
-  "keyToString": {
-    "Application.HelloApplication.executor": "Run",
-    "Application.Main.executor": "Run",
-    "Application.Unnamed.executor": "Run",
-    "RunOnceActivity.ShowReadmeOnStart": "true",
-    "SHARE_PROJECT_CONFIGURATION_FILES": "true",
-    "git-widget-placeholder": "master",
-    "kotlin-language-version-configured": "true",
-    "last_opened_file_path": "D:/rmit/sem 3/advance programing java/assignment 2/assignment2/src/main/resources/com/example/assignment2",
-    "node.js.detected.package.eslint": "true",
-    "node.js.detected.package.tslint": "true",
-    "node.js.selected.package.eslint": "(autodetect)",
-    "node.js.selected.package.tslint": "(autodetect)",
-    "nodejs_package_manager_path": "npm",
-    "project.structure.last.edited": "Modules",
-    "project.structure.proportion": "0.0",
-    "project.structure.side.proportion": "0.46666667",
-    "vue.rearranger.settings.migration": "true"
+  <component name="PropertiesComponent">{
+  &quot;keyToString&quot;: {
+    &quot;Application.HelloApplication.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Main.executor&quot;: &quot;Run&quot;,
+    &quot;Application.Unnamed.executor&quot;: &quot;Run&quot;,
+    &quot;RunOnceActivity.ShowReadmeOnStart&quot;: &quot;true&quot;,
+    &quot;SHARE_PROJECT_CONFIGURATION_FILES&quot;: &quot;true&quot;,
+    &quot;git-widget-placeholder&quot;: &quot;master&quot;,
+    &quot;kotlin-language-version-configured&quot;: &quot;true&quot;,
+    &quot;last_opened_file_path&quot;: &quot;D:/rmit/sem 3/advance programing java/assignment 2/assignment2/src/main/resources/com/example/assignment2&quot;,
+    &quot;node.js.detected.package.eslint&quot;: &quot;true&quot;,
+    &quot;node.js.detected.package.tslint&quot;: &quot;true&quot;,
+    &quot;node.js.selected.package.eslint&quot;: &quot;(autodetect)&quot;,
+    &quot;node.js.selected.package.tslint&quot;: &quot;(autodetect)&quot;,
+    &quot;nodejs_package_manager_path&quot;: &quot;npm&quot;,
+    &quot;project.structure.last.edited&quot;: &quot;Modules&quot;,
+    &quot;project.structure.proportion&quot;: &quot;0.0&quot;,
+    &quot;project.structure.side.proportion&quot;: &quot;0.46666667&quot;,
+    &quot;vue.rearranger.settings.migration&quot;: &quot;true&quot;
   }
-}]]></component>
+}</component>
   <component name="RecentsManager">
     <key name="CopyFile.RECENT_KEYS">
       <recent name="D:\rmit\sem 3\advance programing java\assignment 2\assignment2\src\main\resources\com\example\assignment2" />
@@ -145,7 +147,8 @@
       <option name="presentableId" value="Default" />
       <updated>1716776628952</updated>
       <workItem from="1716776630247" duration="16613000" />
-      <workItem from="1717028228227" duration="26055000" />
+      <workItem from="1717028228227" duration="31479000" />
+      <workItem from="1717290896294" duration="829000" />
     </task>
     <servers />
   </component>

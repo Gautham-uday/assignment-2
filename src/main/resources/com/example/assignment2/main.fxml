@@ -24,10 +24,11 @@
     <VBox spacing="10" alignment="CENTER">
         <Button text="Place Order" onAction="#handlePlaceOrder"/>
         <Button text="Edit Profile" onAction="#handleEditProfile"/>
-
-        <Button text="Export Orders" onAction="#handleExportOrders"/>
         <Button text="View Orders" onAction="#handleViewOrders"/>
         <Button text="Collect Order" onAction="#handleCollectOrder"/>
+        <Button text="Order Meal (VIP)" onAction="#handleOrderMeal"/>
+        <Button text="Upgrade to VIP" onAction="#handleUpgradeToVIP"/>
+        <Button text="Export Orders" onAction="#handleExportOrders"/>
         <Button text="Log Out" onAction="#handleLogout"/>
     </VBox>
 </VBox>
