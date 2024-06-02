@@ -16,8 +16,9 @@ No database used; data is stored in `.dat` files.
 
 1. **Clone the Repository:**
    ```
-   git clone [YOUR_GITHUB_REPOSITORY_URL]
-   ```
+https://github.com/Gautham-uday/assignment-2
+	
+	```
 
 2. **Open in IntelliJ IDEA:**
    - Open IntelliJ IDEA.
